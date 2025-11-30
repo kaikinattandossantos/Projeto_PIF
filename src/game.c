@@ -15,8 +15,9 @@ static void setup_player(Player *p, const char *name, int size, char pos_mode) {
     while (name[i] != '\0' && i < 31) { p->nickname[i] = name[i]; i++; }
     p->nickname[i] = '\0';
 
-    board_init(&p->board, size, size);
-    board_init(&p->shots, size, size);
+    p->board = *board_init(size, size);
+    p->shots = *board_init(size, size);
+
     fleet_init_default(&p->fleet);
     p->shots_count = 0;
     p->hits_count = 0;
@@ -106,14 +107,23 @@ static void do_shot(Player *attacker, Player *defender, int r, int c) {
 }
 
 void game_loop(Game *g) {
-    while (!g->game_over) {
+while (!g->game_over) {
         int idx = g->current_player;
         Player *cur = get_player(g, idx);
         Player *opp = get_opponent(g, idx);
-        printf("\n-- Turno de %s --\n", cur->nickname);
-        printf("Seu mapa de tiros:\n");
+
+        printf("\n----------------------------------------\n");
+        printf("-- Turno de %s --\n", cur->nickname);
+        
+        // 1. MOSTRA SEUS NAVIOS (Onde o 'S' vai aparecer)
+        printf("\n[SEUS NAVIOS]\n");
+        board_print_own(&cur->board); 
+
+        // 2. MOSTRA O RADAR DE TIROS (Onde aparecem os 'X' e '.')
+        printf("\n[SEUS TIROS / RADAR]\n");
         board_print_masked(&cur->shots);
-        printf("Digite coordenada do tiro (ex.: E5): ");
+
+        printf("\nDigite coordenada do tiro (ex.: E5): ");
         char *ln = io_readline();
         int r,c;
         if (!io_parse_coord(ln, g->board_size, g->board_size, &r, &c)) {

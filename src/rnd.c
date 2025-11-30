@@ -1,13 +1,12 @@
+#include "rnd.h"
 #include <stdlib.h>
 #include <time.h>
-#include "rnd.h"
 
-void rnd_init() {
-    srand((unsigned int) time(NULL));
+void rnd_init(void) {
+    srand(time(NULL));
 }
 
-int rand_int_inclusive(int a, int b) {
-    if (b < a) { int t = a; a = b; b = t; }
-    int range = b - a + 1;
-    return a + (rand() % range);
+int rand_int_inclusive(int min, int max) {
+    if (max < min) return min;
+    return min + rand() % (max - min + 1);
 }

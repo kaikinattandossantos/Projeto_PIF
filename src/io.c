@@ -1,81 +1,50 @@
 #include "io.h"
-#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-/* leitura dinâmica de linha com malloc/realloc */
-char* io_readline() {
-    int cap = 64;
-    char *buf = (char*) malloc(cap);
-    if (!buf) { fprintf(stderr,"Erro malloc io_readline\n"); exit(1); }
-    int len = 0;
-    int ch;
-    while ((ch = getchar()) != '\n' && ch != EOF) {
-        if (len + 1 >= cap) {
-            cap *= 2;
-            char *tmp = (char*) realloc(buf, cap);
-            if (!tmp) { free(buf); fprintf(stderr,"Erro realloc io_readline\n"); exit(1); }
-            buf = tmp;
-        }
-        buf[len++] = (char) ch;
+char* io_readline(void) {
+    char buffer[1024];
+    if (!fgets(buffer, sizeof(buffer), stdin)) return NULL;
+
+    // Remove o \n do final, se houver
+    size_t len = strlen(buffer);
+    if (len > 0 && buffer[len-1] == '\n') {
+        buffer[len-1] = '\0';
     }
-    buf[len] = '\0';
-    return buf;
+
+    // Aloca apenas o necessário
+    char *res = malloc(strlen(buffer) + 1);
+    if (res) strcpy(res, buffer);
+    return res;
 }
 
-char io_char_to_upper(char c) {
-    if (c >= 'a' && c <= 'z') return (char)(c - ('a' - 'A'));
-    return c;
-}
-
-int io_is_letter(char c) {
-    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) return 1;
-    return 0;
-}
-
-/* parse int manual */
-int io_parse_int(const char *s, int *out_val) {
-    if (!s || s[0] == '\0') return 0;
-    int i = 0;
-    int sign = 1;
-    if (s[i] == '+') i++;
-    else if (s[i] == '-') { sign = -1; i++; }
-    int val = 0;
-    int any = 0;
-    while (s[i] != '\0') {
-        char ch = s[i++];
-        if (ch < '0' || ch > '9') return 0;
-        any = 1;
-        val = val * 10 + (ch - '0');
-    }
-    if (!any) return 0;
-    *out_val = val * sign;
+int io_parse_int(const char *str, int *out) {
+    char *end;
+    long val = strtol(str, &end, 10);
+    if (end == str || *end != '\0') return 0; // Não leu nada ou sobrou lixo
+    *out = (int)val;
     return 1;
 }
 
-/* parse coord: e.g. "B5" ou "b10", com espaços permitidos */
-int io_parse_coord(const char *s, int maxrows, int maxcols, int *out_r, int *out_c) {
-    if (!s) return 0;
-    int i = 0;
-    /* pular espaços */
-    while (s[i] == ' ' || s[i] == '\t') i++;
-    char ch = s[i];
-    if (!io_is_letter(ch)) return 0;
-    char up = io_char_to_upper(ch);
-    int col = up - 'A';
-    i++;
-    while (s[i] == ' ' || s[i] == '\t') i++;
-    int num = 0;
-    int any = 0;
-    while (s[i] >= '0' && s[i] <= '9') {
-        any = 1;
-        num = num * 10 + (s[i] - '0');
-        i++;
-    }
-    if (!any) return 0;
-    int row = num - 1;
-    if (row < 0 || row >= maxrows) return 0;
-    if (col < 0 || col >= maxcols) return 0;
-    *out_r = row;
-    *out_c = col;
+int io_parse_coord(const char *str, int rows, int cols, int *r, int *c) {
+    if (!str || strlen(str) < 2) return 0;
+
+    // Parse da coluna (Letra)
+    char letter = toupper(str[0]);
+    if (letter < 'A' || letter > 'Z') return 0;
+    int col_idx = letter - 'A';
+
+    // Parse da linha (Número)
+    int row_idx;
+    if (!io_parse_int(&str[1], &row_idx)) return 0;
+    row_idx--; // Usuário digita 1-based, sistema usa 0-based
+
+    // Validação de limites
+    if (col_idx < 0 || col_idx >= cols) return 0;
+    if (row_idx < 0 || row_idx >= rows) return 0;
+
+    *r = row_idx;
+    *c = col_idx;
     return 1;
 }
