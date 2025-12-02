@@ -24,9 +24,11 @@ O objetivo pedagógico foi consolidar os fundamentos da programação estruturad
 
 ## 👥 Equipe
 
-| Aluno | Email | Responsabilidades |
-| :--- | :--- | :--- |
-| **Kaiki nattan** | knsg@cesar.school | • **Build System (Makefile)** e Interface<br>• Sistema de Menus e Configurações<br>• Revisão de Código e Git Flow<br>• Documentação |
+| Aluno            | Email                      | Responsabilidades |
+|------------------|----------------------------|-------------------|
+| **Kaiki Nattan** | [knsg@cesar.school](mailto:knsg@cesar.school) | • **Build System (Makefile)** e Interface<br>• Sistema de Menus e Configurações<br>• Revisão de Código e Git Flow<br>• Documentação |
+| **Leandro Cisneiros** | [lcml@cesar.school](mailto:lcml@cesar.school) | • **Lógica Principal do Jogo** (`game.c`)<br>• Implementação de Structs `Player`/`Game`<br>• Sistema de Disparos e Verificação de Vitória<br>• Gerenciamento de Ponteiros e Memória (`doshot`, `gameloop`)<br>• Integração de Módulos (`board`, `fleet`) |
+
 
 
 ---
