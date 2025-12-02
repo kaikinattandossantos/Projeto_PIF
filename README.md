@@ -24,10 +24,12 @@ O objetivo pedagógico foi consolidar os fundamentos da programação estruturad
 
 ## 👥 Equipe
 
-| Aluno            | Email                      | Responsabilidades |
-|------------------|----------------------------|-------------------|
-| **Kaiki Nattan** | [knsg@cesar.school](mailto:knsg@cesar.school) | • **Build System (Makefile)** e Interface<br>• Sistema de Menus e Configurações<br>• Revisão de Código e Git Flow<br>• Documentação |
-| **Leandro Cisneiros** | [lcml@cesar.school](mailto:lcml@cesar.school) | • **Lógica Principal do Jogo** (`game.c`)<br>• Implementação de Structs `Player`/`Game`<br>• Sistema de Disparos e Verificação de Vitória<br>• Gerenciamento de Ponteiros e Memória (`doshot`, `gameloop`)<br>• Integração de Módulos (`board`, `fleet`) |
+| Aluno              | Email                           | Responsabilidades |
+|--------------------|---------------------------------|-------------------|
+| **Kaiki Nattan**   | [knsg@cesar.school](mailto:knsg@cesar.school) | • **Build System (Makefile)** e Interface<br>• Sistema de Menus e Configurações<br>• Revisão de Código e Git Flow<br>• Documentação |
+| **Leandro Cisneiros** | [lcml@cesar.school](mailto:lcml@cesar.school) | • **Lógica Principal do Jogo** (`game.c`)<br>• Implementação de Structs `Player` / `Game`<br>• Sistema de Disparos e Verificação de Vitória<br>• Gerenciamento de Ponteiros e Memória (`doshot`, `gameloop`)<br>• Integração de Módulos (`board`, `fleet`) |
+| **Davi Nogueira**  | [don@cesar.school](mailto:don@cesar.school) | • **Módulo de Entrada e Validação** (`io.c`, `io.h`)<br>• Parsing de Coordenadas e Inteiros (`ioreadline`, `ioparsecoord`, `ioparseint`)<br>• Geração e Inicialização de Aleatoriedade (`rnd.c`, `rnd.h`)<br>• Testes de Jogabilidade (casos de borda e entradas inválidas)<br>• Apoio na Definição do Tabuleiro e Frotas (tamanho, limites, regras de posicionamento) |
+
 
 
 
